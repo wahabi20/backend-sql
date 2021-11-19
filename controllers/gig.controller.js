@@ -68,3 +68,67 @@ module.exports.getGigById = (req,res) => {
         });
     })
 }
+
+module.exports.updateGig = (req,res) => {
+    const id = req.params.id;
+    Gig.update(req.body, {
+        where: {id:id}
+    }).then(num => {
+         console.log("num>>>", num);
+         if(num == 1){
+             res.send({
+                 message:"gig was updated successfully",
+             })
+         }
+    })
+      .catch(err=> {
+          res.status(500).send({
+              message: "Error updating gig with id=" + id 
+          });
+      })
+}
+
+//Delete a gig with the specified id in the request
+module.exports.deleteGig = (req,res) => {
+    const id = req.params.id;
+    Gig.destroy({
+        where: {id: id}
+    }).then(num => {
+         console.log("num>>>", num);
+         if(num == 1){
+             res.send({
+                 message:"gig was deleted successfully",
+             });
+         }else{
+             res.send({
+                 message: `Cannot delete gig with id=${id}. Maybe gig was not found!`
+             });
+         }
+    })
+      .catch(err=> {
+          res.status(500).send({
+              message: "Error delete gig with id=" + id 
+          });
+      })
+}
+
+//Delete a gig with the specified id in the request
+module.exports.deleteAllGig = (req,res) => {
+    const id = req.params.id;
+    Gig.destroy({
+        where: {},
+        truncate: false
+    }).then(nums => {
+         console.log("num>>>", nums);
+         
+             res.send({
+                 message: `${nums} gig were deleted successfully!`
+             });
+        
+    })
+      .catch(err=> {
+          res.status(500).send({
+              message: err.message || "some error occurred while removing all gig."
+          });
+      });
+};

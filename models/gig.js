@@ -18,6 +18,9 @@ const Gig = db.define('gig',{
     contact_email: {
         type: Sequelize.STRING
     },
+    published: {
+        type: Sequelize.BOOLEAN
+    }
 });
 
 
